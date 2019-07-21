@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS department_manager;
 -- Create a table of departments
 CREATE TABLE departments (
   ID VARCHAR PRIMARY KEY,
-  dept_name VARCHAR NOT NULL,
+  dept_name VARCHAR NOT NULL
 );
 
 -- Create a table of employees
@@ -27,7 +27,8 @@ CREATE TABLE employees (
 -- Create a table of salaries
 CREATE TABLE salaries (
     ID INT PRIMARY KEY,
-    FOREIGN KEY (employee_ID) REFERENCES employees(ID),
+    employee_ID INT,
+	FOREIGN KEY (employee_ID) REFERENCES employees(ID),
     salary INT NOT NULL,
     from_date DATE NOT NULL,
     to_date DATE
@@ -36,6 +37,7 @@ CREATE TABLE salaries (
 -- Create a table of titles
 CREATE TABLE titles (
     ID INT PRIMARY KEY,
+    employee_ID INT NOT NULL,
     FOREIGN KEY (employee_ID) REFERENCES employees(ID),
     title VARCHAR(30) NOT NULL,
     from_date DATE NOT NULL,
@@ -44,7 +46,9 @@ CREATE TABLE titles (
 
 -- Create a junction table for Departments/Employees
 CREATE TABLE department_employee (
-    ID INT PK,
+    ID INT PRIMARY KEY,
+    department_ID VARCHAR NOT NULL,
+    employee_ID INT NOT NULL,
     FOREIGN KEY (department_ID) REFERENCES departments(ID),
     FOREIGN KEY (employee_ID) REFERENCES employees(ID),
     from_date DATE NOT NULL,
@@ -53,7 +57,9 @@ CREATE TABLE department_employee (
 
 -- Create a junction table for Departments/Manager
 CREATE TABLE department_manager (
-    ID INT PK,
+    ID INT PRIMARY KEY,
+    department_ID VARCHAR NOT NULL,
+    employee_ID INT NOT NULL,
     FOREIGN KEY (department_ID) REFERENCES departments(ID),
-    FOREIGN KEY (employee_ID) REFERENCES employees(ID),
+    FOREIGN KEY (employee_ID) REFERENCES employees(ID)
 );
