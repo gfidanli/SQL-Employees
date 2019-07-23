@@ -1,12 +1,10 @@
 -- Define Database Schema
-
-DROP TABLE IF EXISTS departments;
-DROP TABLE IF EXISTS employees;
-DROP TABLE IF EXISTS salaries;
-DROP TABLE IF EXISTS titles;
 DROP TABLE IF EXISTS department_employee;
 DROP TABLE IF EXISTS department_manager;
-
+DROP TABLE IF EXISTS salaries;
+DROP TABLE IF EXISTS titles;
+DROP TABLE IF EXISTS departments;
+DROP TABLE IF EXISTS employees;
 
 -- Create a table of departments
 CREATE TABLE departments (
@@ -26,9 +24,9 @@ CREATE TABLE employees (
 
 -- Create a table of salaries
 CREATE TABLE salaries (
-    ID INT PRIMARY KEY,
-    employee_ID INT,
-	FOREIGN KEY (employee_ID) REFERENCES employees(ID),
+   	-- ID SERIAL PRIMARY KEY,
+	emp_no INT NOT NULL,
+	FOREIGN KEY (emp_no) REFERENCES employees(ID),
     salary INT NOT NULL,
     from_date DATE NOT NULL,
     to_date DATE
@@ -36,9 +34,9 @@ CREATE TABLE salaries (
 
 -- Create a table of titles
 CREATE TABLE titles (
-    ID INT PRIMARY KEY,
-    employee_ID INT NOT NULL,
-    FOREIGN KEY (employee_ID) REFERENCES employees(ID),
+    -- ID INT PRIMARY KEY,
+    emp_no INT NOT NULL,
+    FOREIGN KEY (emp_no) REFERENCES employees(ID),
     title VARCHAR(30) NOT NULL,
     from_date DATE NOT NULL,
     to_date DATE
@@ -46,20 +44,24 @@ CREATE TABLE titles (
 
 -- Create a junction table for Departments/Employees
 CREATE TABLE department_employee (
-    ID INT PRIMARY KEY,
-    department_ID VARCHAR NOT NULL,
-    employee_ID INT NOT NULL,
-    FOREIGN KEY (department_ID) REFERENCES departments(ID),
-    FOREIGN KEY (employee_ID) REFERENCES employees(ID),
+    -- ID SERIAL PRIMARY KEY,
+    emp_no INT NOT NULL,
+    dept_no VARCHAR NOT NULL,
     from_date DATE NOT NULL,
-    to_date DATE
+    to_date DATE,
+	FOREIGN KEY (emp_no) REFERENCES employees(ID),
+	FOREIGN KEY (dept_no) REFERENCES departments(ID)
 );
 
 -- Create a junction table for Departments/Manager
 CREATE TABLE department_manager (
-    ID INT PRIMARY KEY,
-    department_ID VARCHAR NOT NULL,
-    employee_ID INT NOT NULL,
-    FOREIGN KEY (department_ID) REFERENCES departments(ID),
-    FOREIGN KEY (employee_ID) REFERENCES employees(ID)
+    -- ID INT PRIMARY KEY,
+    dept_no VARCHAR NOT NULL,
+    emp_no INT NOT NULL,
+    from_date DATE NOT NULL,
+    to_date DATE,
+	FOREIGN KEY (dept_no) REFERENCES departments(ID),
+    FOREIGN KEY (emp_no) REFERENCES employees(ID)
 );
+
+SELECT * FROM departments;
